@@ -6,12 +6,13 @@ import axios from 'axios';
 
 
 function App() {
-  const[search, setSearch] = useState("chicken");
+  const[search, setSearch] = useState("");
   const[recipes, setRecipe] = useState([]);
 
   const onInputChange = (e) =>{
     //console.log(e.target.value)
     setSearch(e.target.value);
+   // console.log(search);
   }
 
   const API_ID = "690f4439";
@@ -23,7 +24,10 @@ function App() {
 
   useEffect(() =>{
     //console.log("app initialize...");
-    getRecipe();
+    if(search != null){
+      getRecipe();
+    }
+    
   },[])
 
   const getRecipe= async() =>{
@@ -31,10 +35,14 @@ function App() {
     console.log(data.data.hits);
     setRecipe(data.data.hits);
   }
+  const onSearchClick = () =>{
+    console.log("dd");
+    getRecipe()
+  }
 
   return (
     <div className="App">
-      <Header search={search} onInputChange={onInputChange}/>
+      <Header search={search} onInputChange={onInputChange} onSearchClick={onSearchClick}/>
       <div className="container">
         <Recipe recipes={recipes}/>
       </div>
